@@ -3,7 +3,7 @@
     "displayName": "Vscode Google Translate",
     "description": "Translate text right in your code",
     "publisher": "Neko Boi Nick",
-    "version": "1.4.13",
+    "version": "1.4.14",
     "license": "MIT",
     "icon": "icon.png",
     "repository": {
@@ -23,7 +23,7 @@
         "onCommand:extension.translateText",
         "onCommand:extension.translateTextPreferred"
     ],
-    "main": "./extension",
+    "main": "./out/extension",
     "contributes": {
         "commands": [
             {
@@ -194,15 +194,24 @@
         ]
     },
     "scripts": {
-        "postinstall": "npx @vscode/dts dev && cd server && npm install && tsc -p .",
-        "compile": "tsc -p server",
-        "test": "node ./test/index.js"
+        "postinstall": "npx @vscode/dts dev && tsc -p . && cd server && npm install && tsc -p .",
+        "test-compile": "tsc -p .",
+        "compile": "npm run test-compile",
+        "test": "node ./test/index.js",
+        "vscode:prepublish": "cd server && npm run esbuild-base -- --minify",
+        "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+        "esbuild": "npm run esbuild-base -- --sourcemap",
+        "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch"
     },
     "devDependencies": {
+        "@types/he": "^1.2.3",
         "@types/mocha": "^10.0.6",
         "@types/node": "^20.12.7",
+        "@types/node-fetch": "^2.6.11",
+        "@types/tunnel": "^0.0.7",
         "@types/vscode": "^1.88.0",
         "@vscode/test-electron": "^2.3.9",
+        "esbuild": "^0.20.2",
         "eslint": "^9.1.0"
     },
     "dependencies": {
@@ -214,7 +223,9 @@
         "humanize-string": "^3.0.0",
         "tunnel": "0.0.6",
         "typescript": "^5.4.5",
-        "vscode-languageclient": "^9.0.1"
+        "vscode-languageclient": "^9.0.1",
+        "vscode-languageserver": "^9.0.1",
+        "vscode-languageserver-textdocument": "^1.0.11"
     },
     "overrides": {
         "@humanwhocodes/config-array": {

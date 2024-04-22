@@ -17,7 +17,8 @@
     ],
     "ignoreWords": [
         "Onig",
-        "ffix"
+        "ffix",
+        "outfile"
     ],
     "allowCompoundWords": true,
     "loadDefaultConfiguration": true

@@ -4,7 +4,10 @@
   "description": "vscode comment translate server",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "esbuild-base": "esbuild ./src/server.ts --bundle --outfile=out/server.js --external:vscode --external:onigasm --format=cjs --platform=node",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+    "test-compile": "tsc -p ."
   },
   "author": "",
   "dependencies": {
@@ -20,7 +23,8 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.12.7",
-    "@types/request": "^2.48.12"
+    "@types/request": "^2.48.12",
+    "esbuild": "^0.20.2"
   },
   "overrides": {
     "got": ">=11.8.5",

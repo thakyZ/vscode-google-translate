@@ -5,3 +5,12 @@ test/**
 jsconfig.json
 vsc-extension-quickstart.md
 .eslintrc.json
+**/tsconfig.json
+**/*.ts
+!**/*.d.ts
+**/.github/
+extension.js
+languages.d.ts
+languages.js
+cspell.json
+**/node_modules
