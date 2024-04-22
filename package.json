@@ -17,7 +17,11 @@
         "Formatters"
     ],
     "activationEvents": [
-        "*"
+        "onCommand:extension.setPreferredLanguage",
+        "onCommand:extension.translateLinesUnderCursor",
+        "onCommand:extension.translateLinesUnderCursorPreferred",
+        "onCommand:extension.translateText",
+        "onCommand:extension.translateTextPreferred"
     ],
     "main": "./extension",
     "contributes": {
