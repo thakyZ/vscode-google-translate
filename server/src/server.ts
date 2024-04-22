@@ -18,6 +18,7 @@ import { Comment } from './Comment';
 import { patchAsarRequire } from './util/patch-asar-require';
 import { ShortLive } from './util/short-live';
 import { TextDocument } from 'vscode-languageserver-textdocument';
+import { TextDocumentSyncKind } from 'vscode-languageclient';
 
 // Create a connection for the server. The connection uses Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -44,7 +45,7 @@ connection.onInitialize((params: InitializeParams) => {
 		capabilities: {
 			hoverProvider: true,
 			definitionProvider: true,
-			textDocumentSync: documents.syncKind,
+			textDocumentSync: TextDocumentSyncKind.Incremental,
 		}
 	};
 });
