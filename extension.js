@@ -51,7 +51,7 @@ let client = null;
  * Updates languages lists for the convenience of users
  *
  * @param {string} selectedLanguage The language code to update
- * @returns {undefined}
+ * @returns {void}
  */
 function updateLanguageList(selectedLanguage) {
   const index = recentlyUsed.findIndex((r) => r === selectedLanguage);
