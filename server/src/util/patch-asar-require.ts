@@ -1,6 +1,6 @@
 export function patchAsarRequire(appRoot: String) {
-    const path = require('path');
-    const Module = require('module');
+    const path = require('node:path');
+    const Module = require('node:module');
     const NODE_MODULES_PATH = path.join(`${appRoot}/node_modules`);
     const NODE_MODULES_ASAR_PATH = NODE_MODULES_PATH + '.asar';
 
