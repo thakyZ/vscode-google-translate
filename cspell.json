@@ -1,0 +1,24 @@
+{
+    "version": "0.2",
+    "ignorePaths": [
+        "cspell.json"
+    ],
+    "words": [
+        "Asar",
+        "Onigasm",
+        "vitalets",
+        "Azeerbaijani",
+        "Luxembourgish",
+        "Sesotho",
+        "Nyanja",
+        "Shona",
+        "Sinhala",
+        "Uyghur"
+    ],
+    "ignoreWords": [
+        "Onig",
+        "ffix"
+    ],
+    "allowCompoundWords": true,
+    "loadDefaultConfiguration": true
+}
