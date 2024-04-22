@@ -45,7 +45,7 @@ function translate(text, options) {
  */
 const recentlyUsed = [];
 
-let client = null;
+let client = undefined;
 
 /**
  * Updates languages lists for the convenience of users
@@ -531,7 +531,7 @@ async function activate(context) {
         };
       }
     }
-    return null;
+    return undefined;
   });
 }
 exports.activate = activate;
