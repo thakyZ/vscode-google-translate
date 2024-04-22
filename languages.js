@@ -1,3 +1,7 @@
+/**
+ * List of valid Google translate languages.
+ * @type {{name: string, value: string}[]}
+ */
 const languages = [
 	{
 		name: 'Afrikaans',
