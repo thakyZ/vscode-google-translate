@@ -1,9 +1,10 @@
 import { TextDocumentPositionParams, Hover, TextDocuments, Connection } from "vscode-languageserver";
 import { TextDocument } from "vscode-languageserver-textdocument";
+import humanizeString from 'humanize-string';
 import { CommentParse, ICommentOption, ICommentBlock } from "./syntax/CommentParse";
 import { TextMateService } from "./syntax/TextMateService";
 import translate from "google-translate-open-api";
-import * as languages from "../../languages"
+import languages from "../../languages.js";
 
 
 export interface ICommentTranslateSettings {
