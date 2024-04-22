@@ -58,7 +58,7 @@
 - Add the translate of a line feature
 
 ## 1.2.0
-- Prefered language setting
+- Preferred language setting
 
 ## 1.1.5
 - Fix translation issue (#2)
