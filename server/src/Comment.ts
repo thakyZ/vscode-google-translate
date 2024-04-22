@@ -44,8 +44,8 @@ export class Comment {
               return "Google Translate API Error";
             }
           });
-    } 
-    
+    }
+
     private async _getSelectionContainPosition(textDocumentPosition: TextDocumentPositionParams): Promise<ICommentBlock> {
         return await this._connection.sendRequest<ICommentBlock>('selectionContains', textDocumentPosition);
     }
