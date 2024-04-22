@@ -2,7 +2,7 @@ import { TextDocumentPositionParams, Hover, TextDocuments, Connection } from "vs
 import { TextDocument } from "vscode-languageserver-textdocument";
 import humanizeString from 'humanize-string';
 import { CommentParse, ICommentOption, ICommentBlock } from "./syntax/CommentParse";
-import { TextMateService } from "./syntax/TextMateService";
+import { TextMateService, IGrammar } from "./syntax/TextMateService";
 import translate from "google-translate-open-api";
 import languages from "../../languages.js";
 
@@ -30,7 +30,7 @@ export class Comment {
             newSetting.preferredLanguage = this._setting.preferredLanguage;
         }
         this._setting = Object.assign(this._setting, newSetting);
-        this._setting.preferredLanguage = languages.find(element => element.name === this._setting.preferredLanguage).value
+        this._setting.preferredLanguage = languages.find(element => element.name === this._setting.preferredLanguage)?.value ?? "en"
 
     }
 
@@ -56,22 +56,24 @@ export class Comment {
         this._commentParseCache.delete(key);
     }
 
-    async _getCommentParse(textDocument: TextDocument) {
+    async _getCommentParse(textDocument: TextDocument): Promise<CommentParse | undefined> {
         const key = `${textDocument.languageId}-${textDocument.uri}`;
         if (this._commentParseCache.has(key)) {
             return this._commentParseCache.get(key);
         }
-        const grammar = await this._textMateService.createGrammar(textDocument.languageId);
+        const grammar: IGrammar | undefined = await this._textMateService.createGrammar(textDocument.languageId);
+        if (!grammar) return undefined;
         const parse: CommentParse = new CommentParse(textDocument, grammar, this._setting.multiLineMerge);
         this._commentParseCache.set(key, parse);
         return parse;
     }
 
-    async getComment(textDocumentPosition: TextDocumentPositionParams): Promise<Hover> {
+    async getComment(textDocumentPosition: TextDocumentPositionParams): Promise<Hover | undefined> {
         const textDocument = this._documents.get(textDocumentPosition.textDocument.uri);
-        if (!textDocument) return null;
+        if (!textDocument) return undefined;
 
         const parse = await this._getCommentParse(textDocument);
+        if (!parse) return undefined;
         const block = await this._getSelectionContainPosition(textDocumentPosition) || parse.computeText(textDocumentPosition.position);
         if (block) {
             if (block.humanize) {
@@ -88,6 +90,6 @@ export class Comment {
                 };
             }
         }
-        return null;
+        return undefined;
     }
 }

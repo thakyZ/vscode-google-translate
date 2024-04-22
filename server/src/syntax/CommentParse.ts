@@ -1,10 +1,11 @@
-import { TextDocument, Position, Range } from "vscode-languageserver";
+import { Position, Range } from "vscode-languageserver";
 import { IGrammar, StackElement, IToken, IGrammarExtensions } from "./TextMateService";
+import { TextDocument } from "vscode-languageserver-textdocument";
 
 export interface ITokenState {
-    startState: StackElement | null;
+    startState: StackElement | undefined;
     tokens1: IToken[];
-    endState: StackElement | null;
+    endState: StackElement | undefined;
 }
 
 export interface ICommentOption {
@@ -42,12 +43,13 @@ export class CommentParse {
     }
 
     private _parseTokensToLine(lineNumber: number): ITokenState[] {
-        let state: StackElement | null = null;
+        let state: StackElement | undefined = undefined;
         let lineLength = this._lines.length;
         if (lineLength) {
             state = this._lines[lineLength - 1].endState;
         }
         for (let i = lineLength; i <= lineNumber; i++) {
+            if (state == undefined) return [];
             let tokenizationResult = this._grammar.tokenizeLine(this._model[i], state);
             this._lines.push({
                 startState: state,
@@ -161,7 +163,7 @@ export class CommentParse {
 
     }
 
-    public computeText(position: Position): ICommentBlock | null {
+    public computeText(position: Position): ICommentBlock | undefined {
         function isCommentTranslate(scopes: string[]) {
             let arr = [
                 'punctuation.definition.comment',
@@ -249,6 +251,6 @@ export class CommentParse {
             }
         }
 
-        return null;
+        return undefined;
     }
 }

@@ -82,7 +82,7 @@ const shortLive = new ShortLive((item: TextDocumentPositionParams, data: TextDoc
 const last: Map<string, Hover> = new Map();
 
 connection.onHover(async (textDocumentPosition) => {
-	if (!comment) return null;
+	if (!comment) return undefined;
 	const hover = await comment.getComment(textDocumentPosition);
 	hover && last.set(textDocumentPosition.textDocument.uri, hover);
 	return hover;
@@ -90,7 +90,7 @@ connection.onHover(async (textDocumentPosition) => {
 
 connection.onDefinition(async (definitionParams) => {
 	shortLive.add(definitionParams);
-	return null;
+	return undefined;
 });
 
 connection.onRequest('lastHover', ({ uri }) => {
@@ -98,7 +98,7 @@ connection.onRequest('lastHover', ({ uri }) => {
 });
 
 connection.onRequest('translate', (text: string) => {
-	if (!comment) return null;
+	if (!comment) return undefined;
 	return comment.translate(text);
 });
 

@@ -1,7 +1,9 @@
 import * as path from 'node:path';
 import * as fs from 'node:fs';
 import * as onigasm from 'onigasm';
-import { Registry, IOnigLib,parseRawGrammar,INITIAL } from 'vscode-textmate';
+import { Registry, IOnigLib,parseRawGrammar,INITIAL, IRawGrammar } from 'vscode-textmate';
+import { IRawRepository } from 'vscode-textmate/release/rawGrammar';
+import { ScopeName } from 'vscode-textmate/release/theme';
 
 export interface ILocation {
     readonly filename: string;
@@ -103,7 +105,7 @@ export const enum LanguageId {
 }
 
 export interface ICreateGrammarResult {
-    languageId: LanguageId;
+    languageId: LanguageId | undefined;
     grammar: IGrammar;
     initialState: StackElement;
     containsEmbeddedLanguages: boolean;
@@ -132,25 +134,25 @@ export class TMScopeRegistry {
     }
 
     public getLanguageRegistration(scopeName: string): TMLanguageRegistration {
-        return this._scopeNameToLanguageRegistration[scopeName] || null;
+        return this._scopeNameToLanguageRegistration[scopeName] || undefined;
     }
 
-    public getGrammarLocation(scopeName: string): string {
+    public getGrammarLocation(scopeName: string): string | undefined {
         let data = this.getLanguageRegistration(scopeName);
-        return data ? data.grammarLocation : null;
+        return data ? data.grammarLocation : undefined;
     }
 
 }
 
 export class TMLanguageRegistration {
-    _topLevelScopeNameDataBrand: void;
+    _topLevelScopeNameDataBrand?: void;
 
     readonly scopeName: string;
     readonly grammarLocation: string;
     readonly embeddedLanguages: IEmbeddedLanguagesMap;
     readonly tokenTypes: ITokenTypeMap;
 
-    constructor(scopeName: string, grammarLocation: string, embeddedLanguages: IEmbeddedLanguagesMap, tokenTypes: TokenTypesContribution | undefined) {
+    constructor(scopeName: string, grammarLocation: string, embeddedLanguages?: IEmbeddedLanguagesMap, tokenTypes?: TokenTypesContribution | undefined) {
         this.scopeName = scopeName;
         this.grammarLocation = grammarLocation;
 
@@ -195,7 +197,7 @@ export class TMLanguageRegistration {
 }
 
 export interface ITextMateService {
-    createGrammar(modeId: string): Promise<IGrammar>;
+    createGrammar(modeId: string): Promise<IGrammar | undefined>;
 }
 
 export interface ITMLanguageExtensionPoint {
@@ -233,7 +235,7 @@ async function loadOnigasmWASM(): Promise<ArrayBuffer> {
 export class TextMateService implements ITextMateService {
     public _serviceBrand: any;
 
-    private _grammarRegistry: Promise<[any, StackElement]>;
+    private _grammarRegistry?: Promise<[any, StackElement]>;
     // private _modeService: IModeService;
     private _scopeRegistry: TMScopeRegistry;
     private _injections: { [scopeName: string]: string[]; };
@@ -251,7 +253,7 @@ export class TextMateService implements ITextMateService {
         this._languageToScope = new Map<string, string>();
         this._languages = new Map<string, number>();
         console.log(tmPath);
-        this._grammarRegistry = null;
+        this._grammarRegistry = undefined;
         this._parseExtensions(extensions);
     }
 
@@ -350,13 +352,14 @@ export class TextMateService implements ITextMateService {
         return result;
     }
 
-    public async createGrammar(modeId: string): Promise<IGrammar> {
+    public async createGrammar(modeId: string): Promise<IGrammar | undefined> {
         const r = await this._createGrammar(modeId);
-        return r.grammar;
+        return r?.grammar ?? undefined;
     }
 
-    private async _createGrammar(modeId: string): Promise<ICreateGrammarResult> {
+    private async _createGrammar(modeId: string): Promise<ICreateGrammarResult | undefined> {
         let scopeName = this._languageToScope.get(modeId);
+        if (!scopeName) return undefined;
         let languageRegistration = this._scopeRegistry.getLanguageRegistration(scopeName);
         if (!languageRegistration) {
             // No TM grammar defined
