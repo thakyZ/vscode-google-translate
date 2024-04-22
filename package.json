@@ -11,7 +11,7 @@
         "url": "https://github.com/funkyremi/vscode-google-translate.git"
     },
     "engines": {
-        "vscode": "^1.29.0"
+        "vscode": "^1.88.0"
     },
     "categories": [
         "Formatters"
