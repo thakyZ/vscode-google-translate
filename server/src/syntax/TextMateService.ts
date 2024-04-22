@@ -38,20 +38,6 @@ export interface IRawRepositoryMap {
     $self: IRawRule;
     $base: IRawRule;
 }
-export declare type IRawRepository = IRawRepositoryMap & ILocatable;
-
-export interface IRawGrammar extends ILocatable {
-    repository: IRawRepository;
-    readonly scopeName: string;
-    readonly patterns: IRawRule[];
-    readonly injections?: {
-        [expression: string]: IRawRule;
-    };
-    readonly injectionSelector?: string;
-    readonly fileTypes?: string[];
-    readonly name?: string;
-    readonly firstLineMatch?: string;
-}
 
 export declare const enum StandardTokenType {
     Other = 0,
@@ -285,13 +271,13 @@ export class TextMateService implements ITextMateService {
 
     private async _getOrCreateGrammarRegistry(): Promise<[any, StackElement]> {
         if (!this._grammarRegistry) {
-            const grammarRegistry = new Registry({
-                getOnigLib: doLoadOnigasm,
-                loadGrammar: (scopeName: string) => {
+            const grammarRegistry: Registry = new Registry({
+                onigLib: doLoadOnigasm(),
+                loadGrammar: (scopeName: ScopeName): Promise<IRawGrammar | undefined | null> => {
                     const location = this._scopeRegistry.getGrammarLocation(scopeName);
                     if (!location) {
                         console.log(`No grammar found for scope ${scopeName}`);
-                        return null;
+                        return new Promise<IRawGrammar | undefined | null>(c=>c(null));
                     }
                     return new Promise<IRawGrammar>((c, e) => {
                         fs.readFile(location, { encoding: 'utf8' }, (error, content) => {
