@@ -12,7 +12,7 @@ import {
 	DidChangeConfigurationNotification,
 	Hover,
 	TextDocumentPositionParams,
-} from 'vscode-languageserver';
+} from 'vscode-languageserver/node';
 
 import { Comment } from './Comment';
 import { patchAsarRequire } from './util/patch-asar-require';
