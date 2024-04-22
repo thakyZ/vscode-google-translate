@@ -213,7 +213,7 @@ async function doLoadOnigasm(): Promise<IOnigLib> {
     const [wasmBytes] = await Promise.all([
         loadOnigasmWASM()
     ]);
-    
+
     // debugger;
 
 	await onigasm.loadWASM(wasmBytes);
