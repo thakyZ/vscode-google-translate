@@ -38,8 +38,8 @@ connection.onInitialize((params: InitializeParams) => {
 	patchAsarRequire(params.initializationOptions.appRoot);
 	// Does the client support the `workspace/configuration` request?
 	// If not, we will fall back using global settings
-	hasConfigurationCapability = capabilities.workspace && !!capabilities.workspace.configuration;
-	hasWorkspaceFolderCapability = capabilities.workspace && !!capabilities.workspace.workspaceFolders;
+	hasConfigurationCapability = (capabilities.workspace && !!capabilities.workspace?.configuration) ?? false;
+	hasWorkspaceFolderCapability = (capabilities.workspace && !!capabilities.workspace?.workspaceFolders) ?? false;
 
 	return {
 		capabilities: {
