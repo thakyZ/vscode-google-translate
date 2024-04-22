@@ -393,7 +393,7 @@ async function activate(context) {
       ).value;
       if (!locale) {
         vscode.window.showWarningMessage(
-          "Prefered language is requeried for this feature! Please set this in the settings."
+          "Preferred language is required for this feature! Please set this in the settings."
         );
         return;
       }
