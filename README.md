@@ -1,7 +1,7 @@
 # Vscode Google Translate
 
-[![License](https://img.shields.io/github/license/funkyremi/vscode-google-translate.svg)](https://github.com/funkyremi/vscode-google-translate)
-![VS Code Marketplace](https://vsmarketplacebadge.apphb.com/version-short/funkyremi.vscode-google-translate.svg) ![Rating](https://vsmarketplacebadge.apphb.com/rating-short/funkyremi.vscode-google-translate.svg)
+[![License](https://img.shields.io/github/license/funkyremi/vscode-google-translate.png)](https://github.com/funkyremi/vscode-google-translate)
+![VS Code Marketplace](https://vsmarketplacebadge.apphb.com/version-short/funkyremi.vscode-google-translate.png) ![Rating](https://vsmarketplacebadge.apphb.com/rating-short/funkyremi.vscode-google-translate.png)
 
 Quickly translate text right in your code 🚀
 
