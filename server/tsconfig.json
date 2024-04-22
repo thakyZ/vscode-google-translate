@@ -6,7 +6,9 @@
 		"sourceMap": true,
 		"outDir": "out",
 		"rootDir": "src",
-		"lib": [ "es6" ]
+		"lib": [ "es6" ],
+		"strict": true,
+		"forceConsistentCasingInFileNames": true
 	},
 	"include": [
 		"src"
