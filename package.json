@@ -2,7 +2,7 @@
     "name": "vscode-google-translate",
     "displayName": "Vscode Google Translate",
     "description": "Translate text right in your code",
-    "publisher": "Neko Boi Nick",
+    "publisher": "nekoboinick",
     "version": "1.4.14",
     "license": "MIT",
     "icon": "icon.png",
